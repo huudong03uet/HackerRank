@@ -7,6 +7,7 @@ import java.util.concurrent.*;
 import java.util.function.*;
 import java.util.regex.*;
 import java.util.stream.*;
+
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
@@ -59,12 +60,10 @@ class SinglyLinkedListPrintHelper {
 class Result {
 
     /*
-     * Complete the 'getNode' function below.
+     * Complete the 'removeDuplicates' function below.
      *
-     * The function is expected to return an INTEGER.
-     * The function accepts following parameters:
-     *  1. INTEGER_SINGLY_LINKED_LIST llist
-     *  2. INTEGER positionFromTail
+     * The function is expected to return an INTEGER_SINGLY_LINKED_LIST.
+     * The function accepts INTEGER_SINGLY_LINKED_LIST llist as parameter.
      */
 
     /*
@@ -77,30 +76,29 @@ class Result {
      *
      */
 
-        public static int getNode(SinglyLinkedListNode llist, int positionFromTail) {
-            // Write your code here
-            SinglyLinkedListNode singlyLinkedListNode = llist;
-            int cntNode = 0;
-            while(singlyLinkedListNode != null) {
-                cntNode++;
-                singlyLinkedListNode = singlyLinkedListNode.next;
-            }
-            for(int i = 0; i < cntNode - positionFromTail - 1; i++) {
+    public static SinglyLinkedListNode removeDuplicates(SinglyLinkedListNode llist) {
+        // Write your code here
+        SinglyLinkedListNode singlyLinkedListNode = llist;
+        while(llist.next != null) {
+            if(llist.data == llist.next.data) {
+                llist.next = llist.next.next;
+            } else {
                 llist = llist.next;
             }
-            return llist.data;
         }
+        return singlyLinkedListNode;
+    }
 
 }
 
-public class getTheValueOfTheNodeAtASpecificPositionFromTheTail {
+public class deleteDuplicateValueNodesFromASortedLinkedList {
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
 
-        int tests = Integer.parseInt(bufferedReader.readLine().trim());
+        int t = Integer.parseInt(bufferedReader.readLine().trim());
 
-        IntStream.range(0, tests).forEach(testsItr -> {
+        IntStream.range(0, t).forEach(tItr -> {
             try {
                 SinglyLinkedList llist = new SinglyLinkedList();
 
@@ -116,11 +114,9 @@ public class getTheValueOfTheNodeAtASpecificPositionFromTheTail {
                     }
                 });
 
-                int position = Integer.parseInt(bufferedReader.readLine().trim());
+                SinglyLinkedListNode llist1 = Result.removeDuplicates(llist.head);
 
-                int result = Result.getNode(llist.head, position);
-
-                bufferedWriter.write(String.valueOf(result));
+                SinglyLinkedListPrintHelper.printList(llist1, " ", bufferedWriter);
                 bufferedWriter.newLine();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
